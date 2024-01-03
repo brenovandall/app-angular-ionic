@@ -10,14 +10,15 @@ import { cashOutline, calendarOutline } from 'ionicons/icons';
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage {
-  private movieService = inject(MoviesService);
-  public imageBaseUrl = 'https://image.tmdb.org/t/p';
-  public movie: WritableSignal<MovieResult | null> = signal(null);
+  private movieService = inject(MoviesService); // injecting the service, that is getting data from API
+  public imageBaseUrl = 'https://image.tmdb.org/t/p'; // thats the base URL for the banner images
+  public movie: WritableSignal<MovieResult | null> = signal(null); // a signal to get the id from another component from the Input() method
 
+  // so here i can take the id and use the function [getMovieDetails()] to get all the details of a single movie by the id
   @Input()
   set id(movieId: string) {
     this.movieService.getMovieDetails(movieId).subscribe((movie) => {
-      this.movie.set(movie);
+      this.movie.set(movie); // i set the result of the function as the [WritableSignal] response
       console.log(movieId)
     })
   }
