@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ movie()?.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  @if(movie(); as movies) {
+    <ion-card>
+      <div
+        [style.height.px]="300"
+        [style.background-image]="'url(' + imageBaseUrl + '/w400' + movies.poster_path + ')'"></div>
+  
+      <ion-card-header>
+        <ion-card-title> {{ movies.title }} </ion-card-title>
+        <ion-card-subtitle> {{ movies.tagline }} </ion-card-subtitle>
+        <ion-text color="tertiary">
+          @for (g of movies.genres; track g.id; let isLast = $last;) {
+          <span> {{ g.name }} {{ !isLast ? '·' : '' }}</span>
+          }
+        </ion-text>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label color="medium">{{ movies.overview }}</ion-label>
+  
+        <ion-item lines="none">
+          <ion-icon name="calendar-outline" slot="start"></ion-icon>
+          <ion-label>{{ movies.release_date | date: 'y'}}</ion-label>
+        </ion-item>
+  
+        <ion-item lines="none">
+          <ion-icon name="cash-outline" slot="start"></ion-icon>
+          <ion-label>{{ movies.budget| currency: 'USD' }}</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  }
+</ion-content>
